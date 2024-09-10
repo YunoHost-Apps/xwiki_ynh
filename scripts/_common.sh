@@ -92,11 +92,12 @@ install_exension() {
 }
 
 wait_xwiki_started() {
-    local res='meta http-equiv="refresh" content="1"'
-    local curl='curl --silent --show-error'
+    local res
+    res=$(curl --silent --show-error "http://127.0.0.1:$port/${path2}bin/view/Main/" || true)
+    sleep 20
 
-    while echo "$res" | grep -q 'meta http-equiv="refresh" content="1"'; do
-        res=$($curl "http://127.0.0.1:$port/${path2}bin/view/Main/")
+    while ! echo "$res" | grep '<html' || echo "$res" | grep -F 'meta http-equiv="refresh" content="1"'; do
+        res=$(curl --silent --show-error "http://127.0.0.1:$port/${path2}bin/view/Main/")
         sleep 10
     done
 }
