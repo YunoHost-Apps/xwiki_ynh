@@ -1,7 +1,6 @@
 #!/bin/bash
 
 source _common.sh
-source /usr/share/yunohost/helpers
 
 #=================================================
 # STOP SYSTEMD SERVICE
@@ -38,8 +37,7 @@ set_permissions
 #=================================================
 ynh_script_progression "Starting $app's systemd service..."
 
-ynh_systemctl --service="$app" --action=start --log_path=systemd --wait_until="$systemd_match_start_line"
-wait_xwiki_started
+ynh_systemctl --service="$app" --action=start --log_path=systemd --wait_until="$systemd_match_start_line" --timeout=300
 
 #=================================================
 # END OF SCRIPT

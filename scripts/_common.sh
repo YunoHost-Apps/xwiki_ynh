@@ -1,13 +1,17 @@
 #!/bin/bash
 
+source /usr/share/yunohost/helpers
+
 #=================================================
 # COMMON VARIABLES AND CUSTOM HELPERS
 #=================================================
 
+readonly systemd_match_start_line='oxtjl.NotifyListener:main: ----------------------------------'
+readonly flavor_version="$(ynh_app_upstream_version)"
+readonly ldap_version='9.15.5'
+readonly wiki_initializer_api_version='1.2.0'
+
 super_admin_config='#'
-systemd_match_start_line='oxtjl.NotifyListener:main: ----------------------------------'
-flavor_version='16.3.1'
-ldap_version='9.15.2'
 
 if [ "$install_standard_flavor" -eq 1 ]; then
     distribution_default_ui="distribution.defaultUI=org.xwiki.platform:xwiki-platform-distribution-flavor-mainwiki/$flavor_version"
@@ -62,6 +66,8 @@ install_exension() {
     local status_raw
     local state_request
 
+    wait_xwiki_started
+
     chmod 700 "$temp_dir"
     chown root:root "$temp_dir"
 
@@ -91,6 +97,7 @@ install_exension() {
     done
 }
 
+# Note it's only needed before the application-wiki-initializer-api extension is installed
 wait_xwiki_started() {
     local res
     res=$(curl --silent --show-error "http://127.0.0.1:$port/${path2}bin/view/Main/" || true)
@@ -105,7 +112,6 @@ wait_xwiki_started() {
 wait_for_flavor_install() {
     local status_header
 
-    # Need to call main page to start xwiki service
     wait_xwiki_started
 
     while true; do

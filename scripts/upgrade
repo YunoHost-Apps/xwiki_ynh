@@ -1,16 +1,25 @@
 #!/bin/bash
 
 source _common.sh
-source /usr/share/yunohost/helpers
 
 if ynh_app_upgrading_from_version_before_or_equal_to '14.10.8~ynh1'; then
     ynh_die 'Upgrade from this version is not supported. Please backup and restore manually the data after a clean new install'
 fi
 
+if ynh_app_upgrading_from_version_before_or_equal_to '16.6.0~ynh1'; then
+    ynh_script_progression 'Installing Wiki Initializer - API extension...'
+    enable_super_admin
+    ynh_systemctl --service="$app" --action=restart --log_path=systemd --wait_until="$systemd_match_start_line" --timeout=300
+    wait_xwiki_started
+
+    install_exension 'org.xwiki.contrib.wikiinitializer:application-wiki-initializer-api' "$wiki_initializer_api_version"
+    disable_super_admin
+fi
+
 #=================================================
 # STOP SYSTEMD SERVICE
 #=================================================
-ynh_script_progression 'Stopping $app's systemd service...
+ynh_script_progression "Stopping $app's systemd service..."
 
 ynh_systemctl --service="$app" --action=stop
 
@@ -52,12 +61,15 @@ set_permissions
 enable_super_admin
 
 # Start a systemd service
-ynh_systemctl --service="$app" --action=start --log_path=systemd --wait_until="$systemd_match_start_line"
+ynh_systemctl --service="$app" --action=start --log_path=systemd --wait_until="$systemd_match_start_line" --timeout=300
 
 if [ "$install_standard_flavor" -eq 1 ]; then
     ynh_script_progression 'Upgrading flavor...'
     wait_for_flavor_install
 fi
+
+ynh_script_progression 'Installing Wiki Initializer - API extension...'
+install_exension 'org.xwiki.contrib.wikiinitializer:application-wiki-initializer-api' "$wiki_initializer_api_version"
 
 ynh_script_progression 'Upgrading LDAP extension...'
 install_exension 'org.xwiki.contrib.ldap:ldap-authenticator' "$ldap_version"
@@ -71,8 +83,7 @@ disable_super_admin
 #=================================================
 
 ynh_script_progression "Starting $app's systemd service..."
-ynh_systemctl --service="$app" --action=start --log_path=systemd --wait_until="$systemd_match_start_line"
-wait_xwiki_started
+ynh_systemctl --service="$app" --action=start --log_path=systemd --wait_until="$systemd_match_start_line" --timeout=300
 
 #=================================================
 # END OF SCRIPT

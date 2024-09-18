@@ -2,7 +2,6 @@
 
 # Keep this path for calling _common.sh inside the execution's context of backup and restore scripts
 source ../settings/scripts/_common.sh
-source /usr/share/yunohost/helpers
 
 #=================================================
 # RESTORE THE APP MAIN DIR
@@ -35,8 +34,7 @@ ynh_config_add_logrotate "/var/log/$app"
 #=================================================
 ynh_script_progression "Reloading NGINX web server and $app's service..."
 
-ynh_systemctl --service="$app" --action=start --log_path=systemd --wait_until="$systemd_match_start_line"
-wait_xwiki_started
+ynh_systemctl --service="$app" --action=start --log_path=systemd --wait_until="$systemd_match_start_line" --timeout=300
 
 ynh_systemctl --service=nginx --action=reload
 
