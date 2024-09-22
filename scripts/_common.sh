@@ -35,7 +35,6 @@ enable_super_admin() {
     super_admin_pwd=$(ynh_string_random)
     super_admin_config="xwiki.superadminpassword=$super_admin_pwd"
     ynh_config_add --template=xwiki.cfg --destination=/etc/"$app"/xwiki_conf.cfg
-    ln -f /etc/"$app"/xwiki_conf.cfg "$web_inf_path"/xwiki.cfg
     chmod 400 /etc/"$app"/xwiki_conf.cfg
     chown "$app:$app" /etc/"$app"/xwiki_conf.cfg
 }
@@ -43,7 +42,6 @@ enable_super_admin() {
 disable_super_admin() {
     super_admin_config='#'
     ynh_config_add --template=xwiki.cfg --destination=/etc/"$app"/xwiki_conf.cfg
-    ln -f /etc/"$app"/xwiki_conf.cfg "$web_inf_path"/xwiki.cfg
     chmod 400 /etc/"$app"/xwiki_conf.cfg
     chown "$app:$app" /etc/"$app"/xwiki_conf.cfg
 }
@@ -133,6 +131,9 @@ install_source() {
     ynh_safe_rm "$install_dir"/webapps/root
 
     ln -s /var/log/"$app" "$install_dir"/logs
+    ln -s /etc/"$app"/xwiki_conf.cfg "$web_inf_path"/xwiki.cfg
+    ln -s /etc/"$app"/xwiki_conf.properties "$web_inf_path"/xwiki.properties
+    cp ../conf/jetty-web.xml "$web_inf_path"/jetty-web.xml
 
     if $install_on_root; then
         mv "$install_dir"/webapps/xwiki "$install_dir"/webapps/root
@@ -147,12 +148,6 @@ add_config() {
     ynh_config_add --template=hibernate.cfg.xml --destination=/etc/"$app"/hibernate.cfg.xml
     ynh_config_add --template=xwiki.cfg --destination=/etc/"$app"/xwiki_conf.cfg
     ynh_config_add --template=xwiki.properties --destination=/etc/"$app"/xwiki_conf.properties
-
-    # Note that using /etc/xwiki/xwiki.cfg or /etc/xwiki/xwiki.properties is hard coded on the application
-    # And using this break multi instance feature so we must use an other path
-    # Note that symlink don't work. So use hard link instead.
-    ln -f /etc/"$app"/xwiki_conf.cfg "$web_inf_path"/xwiki.cfg
-    ln -f /etc/"$app"/xwiki_conf.properties "$web_inf_path"/xwiki.properties
 }
 
 set_permissions() {
