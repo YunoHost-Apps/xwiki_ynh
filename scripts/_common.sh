@@ -131,9 +131,9 @@ install_source() {
     ynh_safe_rm "$install_dir"/webapps/root
 
     ln -s /var/log/"$app" "$install_dir"/logs
-    ln -s /etc/"$app"/xwiki_conf.cfg "$web_inf_path"/xwiki.cfg
-    ln -s /etc/"$app"/xwiki_conf.properties "$web_inf_path"/xwiki.properties
-    cp ../conf/jetty-web.xml "$web_inf_path"/jetty-web.xml
+    ln -s /etc/"$app"/xwiki_conf.cfg "$install_dir"/webapps/xwiki/WEB-INF/xwiki.cfg
+    ln -s /etc/"$app"/xwiki_conf.properties "$install_dir"/webapps/xwiki/WEB-INF/xwiki.properties
+    cp ../conf/jetty-web.xml "$install_dir"/webapps/xwiki/WEB-INF/jetty-web.xml
 
     if $install_on_root; then
         mv "$install_dir"/webapps/xwiki "$install_dir"/webapps/root
