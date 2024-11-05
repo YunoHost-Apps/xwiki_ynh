@@ -18,7 +18,7 @@ No se debe editar a mano.
 
 XWiki is an Open Source wiki engine (LGPLv2) suitable for use by workgroups (associations, companies, etc.). The software allows the rapid creation of small applications to meet different information management needs.
 
-**Versión actual:** 16.6.0~ynh1
+**Versión actual:** 16.9.0~ynh1
 
 **Demo:** <https://playground.xwiki.org/xwiki/bin/view/Main/WebHome>
 
@@ -37,7 +37,7 @@ XWiki is an Open Source wiki engine (LGPLv2) suitable for use by workgroups (ass
 
 ## Información para desarrolladores
 
-Por favor enviar sus correcciones a la [`branch testing`](https://github.com/YunoHost-Apps/xwiki_ynh/tree/testing
+Por favor enviar sus correcciones a la [rama `testing`](https://github.com/YunoHost-Apps/xwiki_ynh/tree/testing).
 
 Para probar la rama `testing`, sigue asÍ:
 
