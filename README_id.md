@@ -5,7 +5,9 @@ Ini TIDAK boleh diedit dengan tangan.
 
 # XWiki untuk YunoHost
 
-[![Tingkat integrasi](https://dash.yunohost.org/integration/xwiki.svg)](https://ci-apps.yunohost.org/ci/apps/xwiki/) ![Status kerja](https://ci-apps.yunohost.org/ci/badges/xwiki.status.svg) ![Status pemeliharaan](https://ci-apps.yunohost.org/ci/badges/xwiki.maintain.svg)
+[![Tingkat integrasi](https://apps.yunohost.org/badge/integration/xwiki)](https://ci-apps.yunohost.org/ci/apps/xwiki/)
+![Status kerja](https://apps.yunohost.org/badge/state/xwiki)
+![Status pemeliharaan](https://apps.yunohost.org/badge/maintained/xwiki)
 
 [![Pasang XWiki dengan YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=xwiki)
 
@@ -18,7 +20,7 @@ Ini TIDAK boleh diedit dengan tangan.
 
 XWiki is an Open Source wiki engine (LGPLv2) suitable for use by workgroups (associations, companies, etc.). The software allows the rapid creation of small applications to meet different information management needs.
 
-**Versi terkirim:** 16.9.0~ynh1
+**Versi terkirim:** 16.10.0~ynh1
 
 **Demo:** <https://playground.xwiki.org/xwiki/bin/view/Main/WebHome>
 

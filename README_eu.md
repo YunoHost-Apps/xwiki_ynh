@@ -5,7 +5,9 @@ EZ editatu eskuz.
 
 # XWiki YunoHost-erako
 
-[![Integrazio maila](https://dash.yunohost.org/integration/xwiki.svg)](https://ci-apps.yunohost.org/ci/apps/xwiki/) ![Funtzionamendu egoera](https://ci-apps.yunohost.org/ci/badges/xwiki.status.svg) ![Mantentze egoera](https://ci-apps.yunohost.org/ci/badges/xwiki.maintain.svg)
+[![Integrazio maila](https://apps.yunohost.org/badge/integration/xwiki)](https://ci-apps.yunohost.org/ci/apps/xwiki/)
+![Funtzionamendu egoera](https://apps.yunohost.org/badge/state/xwiki)
+![Mantentze egoera](https://apps.yunohost.org/badge/maintained/xwiki)
 
 [![Instalatu XWiki YunoHost-ekin](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=xwiki)
 
@@ -18,7 +20,7 @@ EZ editatu eskuz.
 
 XWiki is an Open Source wiki engine (LGPLv2) suitable for use by workgroups (associations, companies, etc.). The software allows the rapid creation of small applications to meet different information management needs.
 
-**Paketatutako bertsioa:** 16.9.0~ynh1
+**Paketatutako bertsioa:** 16.10.0~ynh1
 
 **Demoa:** <https://playground.xwiki.org/xwiki/bin/view/Main/WebHome>
 
