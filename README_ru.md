@@ -20,7 +20,7 @@
 
 XWiki is an Open Source wiki engine (LGPLv2) suitable for use by workgroups (associations, companies, etc.). The software allows the rapid creation of small applications to meet different information management needs.
 
-**Поставляемая версия:** 16.10.1~ynh1
+**Поставляемая версия:** 16.10.2~ynh1
 
 **Демо-версия:** <https://playground.xwiki.org/xwiki/bin/view/Main/WebHome>
 
