@@ -5,7 +5,9 @@ No se debe editar a mano.
 
 # XWiki para Yunohost
 
-[![Nivel de integración](https://dash.yunohost.org/integration/xwiki.svg)](https://ci-apps.yunohost.org/ci/apps/xwiki/) ![Estado funcional](https://ci-apps.yunohost.org/ci/badges/xwiki.status.svg) ![Estado En Mantención](https://ci-apps.yunohost.org/ci/badges/xwiki.maintain.svg)
+[![Nivel de integración](https://apps.yunohost.org/badge/integration/xwiki)](https://ci-apps.yunohost.org/ci/apps/xwiki/)
+![Estado funcional](https://apps.yunohost.org/badge/state/xwiki)
+![Estado En Mantención](https://apps.yunohost.org/badge/maintained/xwiki)
 
 [![Instalar XWiki con Yunhost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=xwiki)
 
@@ -18,7 +20,7 @@ No se debe editar a mano.
 
 XWiki is an Open Source wiki engine (LGPLv2) suitable for use by workgroups (associations, companies, etc.). The software allows the rapid creation of small applications to meet different information management needs.
 
-**Versión actual:** 16.5.0~ynh1
+**Versión actual:** 16.10.2~ynh1
 
 **Demo:** <https://playground.xwiki.org/xwiki/bin/view/Main/WebHome>
 
@@ -37,7 +39,7 @@ XWiki is an Open Source wiki engine (LGPLv2) suitable for use by workgroups (ass
 
 ## Información para desarrolladores
 
-Por favor enviar sus correcciones a la [`branch testing`](https://github.com/YunoHost-Apps/xwiki_ynh/tree/testing
+Por favor enviar sus correcciones a la [rama `testing`](https://github.com/YunoHost-Apps/xwiki_ynh/tree/testing).
 
 Para probar la rama `testing`, sigue asÍ:
 

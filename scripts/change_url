@@ -1,37 +1,28 @@
 #!/bin/bash
 
-#=================================================
-# GENERIC STARTING
-#=================================================
-# IMPORT GENERIC HELPERS
-#=================================================
-
 source _common.sh
-source /usr/share/yunohost/helpers
 
-#=================================================
-# STANDARD MODIFICATIONS
 #=================================================
 # STOP SYSTEMD SERVICE
 #=================================================
-ynh_script_progression --message="Stopping a systemd service..." --weight=1
+ynh_script_progression "Stopping $app's systemd service..."
 
-ynh_systemd_action --service_name="$app" --action=stop
+ynh_systemctl --service="$app" --action=stop
 
 #=================================================
 # MODIFY URL IN NGINX CONF
 #=================================================
-ynh_script_progression --message="Updating NGINX web server configuration..." --weight=1
+ynh_script_progression "Updating NGINX web server configuration..."
 
-ynh_change_url_nginx_config
+ynh_config_change_url_nginx
 
-ynh_script_progression --message="Updating xwiki configuration..." --weight=1
+ynh_script_progression "Updating xwiki configuration..."
 
 if [ "$new_path" != "$old_path" ]; then
     if "$install_on_root"; then
         mv "$install_dir/webapps$old_path" "$install_dir"/webapps/root
     elif [ "$path" == /root ]; then
-        ynh_die --message='Path "/root" not supported'
+        ynh_die 'Path "/root" not supported'
     elif [ $old_path == / ]; then
         mv "$install_dir"/webapps/root "$install_dir/webapps$new_path"
     else
@@ -42,17 +33,14 @@ add_config
 set_permissions
 
 #=================================================
-# GENERIC FINALISATION
-#=================================================
 # START SYSTEMD SERVICE
 #=================================================
-ynh_script_progression --message="Starting a systemd service..." --weight=1
+ynh_script_progression "Starting $app's systemd service..."
 
-ynh_systemd_action --service_name="$app" --action=start --log_path=systemd --line_match="$systemd_match_start_line"
-wait_xwiki_started
+ynh_systemctl --service="$app" --action=start --log_path=systemd --wait_until="$systemd_match_start_line" --timeout=300
 
 #=================================================
 # END OF SCRIPT
 #=================================================
 
-ynh_script_progression --message="Change of URL completed for $app" --last
+ynh_script_progression "Change of URL completed for $app"

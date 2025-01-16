@@ -20,19 +20,23 @@ EOL
     echo "$result" | jq -r "$1"
 }
 
-check_app_version() {
-    local app_remote_version=$(curl https://nexus.xwiki.org/nexus/content/groups/public/org/xwiki/platform/xwiki-platform-distribution-jetty-hsqldb/maven-metadata.xml |
-        xq -x '//metadata/versioning/versions' |
-        sed -E 's|\s*(.*)\s*|\1|g' |
-        grep -v '\-rc-' |
-        grep -v '\-milestone-' |
-        grep -v '^$' |
-        python3 -c 'import sys
+get_remote_version_from_nexus() {
+    curl https://nexus.xwiki.org/nexus/content/groups/public/"$1" |
+            xq -x '//metadata/versioning/versions' |
+            sed -E 's|\s*(.*)\s*|\1|g' |
+            grep -v '\-rc-' |
+            grep -v '\-milestone-' |
+            grep -v '^$' |
+            python3 -c 'import sys
 from packaging.version import Version
 versions = sys.stdin.read().splitlines()
 versions.sort(key=Version)
-print(versions[-1])')
+print(versions[-1])'
+}
 
+check_app_version() {
+    local app_remote_version=$(get_remote_version_from_nexus org/xwiki/platform/xwiki-platform-distribution-jetty-hsqldb/maven-metadata.xml)
+    ldap_version=$(get_remote_version_from_nexus org/xwiki/contrib/ldap/ldap-authenticator/maven-metadata.xml)
     jdbc_version=$(curl 'https://api.github.com/repos/pgjdbc/pgjdbc/releases/latest' -H 'Host: api.github.com' --compressed | jq -r ".tag_name" | cut -dL -f2)
 
     ## Check if new build is needed
@@ -64,6 +68,7 @@ upgrade_app() {
         sed -r -i 's|postgresql-[[:alnum:].]{4,10}\.jar|postgresql-'"${jdbc_version}"'.jar|' ../manifest.toml
         sed -r -i "s|$prev_sha256sum_main|$sha256sum_main|" ../manifest.toml
         sed -r -i "s|$prev_sha256sum_jdbc|$sha256sum_jdbc|" ../manifest.toml
+        sed -r -i "s|ldap_version='[[:alnum:].]{3,9}'|ldap_version='$ldap_version'|" ../scripts/_common.sh
 
         git commit -a -m "Upgrade $app_name to $app_version"
         git push gitea auto_update:auto_update

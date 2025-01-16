@@ -1,13 +1,6 @@
 #!/bin/bash
 
-#=================================================
-# GENERIC START
-#=================================================
-# IMPORT GENERIC HELPERS
-#=================================================
-
 source _common.sh
-source /usr/share/yunohost/helpers
 
 #=================================================
 # APP "BUILD" (DEPLOYING SOURCES, VENV, COMPILING ETC)
@@ -27,14 +20,14 @@ mkdir -p /etc/"$app"
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
 
-ynh_script_progression --message='Setting up source files...' --weight=1
+ynh_script_progression 'Setting up source files...'
 
 install_source
 
 #=================================================
 # ADD A CONFIGURATION
 #=================================================
-ynh_script_progression --message='Adding configuration files...' --weight=1
+ynh_script_progression 'Adding configuration files...'
 
 add_config
 set_permissions
@@ -42,17 +35,17 @@ set_permissions
 #=================================================
 # SYSTEM CONFIGURATION
 #=================================================
-ynh_script_progression --message="Adding system configurations related to $app..." --weight=1
+ynh_script_progression "Adding system configurations related to $app..."
 
 # Create a dedicated NGINX config using the conf/nginx.conf template
-ynh_add_nginx_config
+ynh_config_add_nginx
 
 # Create a dedicated systemd config
-ynh_add_systemd_config
+ynh_config_add_systemd
 
 yunohost service add "$app" --description=XWiki --log="/var/log/$app/$app.log"
 
-ynh_use_logrotate --logfile="/var/log/$app"
+ynh_config_add_logrotate "/var/log/$app"
 
 #=================================================
 # INSTALL EXTENSIONS
@@ -61,31 +54,31 @@ ynh_use_logrotate --logfile="/var/log/$app"
 enable_super_admin
 
 # Start a systemd service
-ynh_systemd_action --service_name="$app" --action=start --log_path=systemd --line_match="$systemd_match_start_line"
+ynh_systemctl --service="$app" --action=start --log_path=systemd --wait_until="$systemd_match_start_line" --timeout=300
 
 if [ "$install_standard_flavor" -eq 1 ]; then
-    ynh_script_progression --message='Installing flavor...'
+    ynh_script_progression 'Installing flavor...'
     wait_for_flavor_install
 fi
 
-ynh_script_progression --message='Installing LDAP extension...' --weight=1
+# ynh_script_progression 'Installing Wiki Initializer - API extension...'
+# install_exension 'org.xwiki.contrib.wikiinitializer:application-wiki-initializer-api' "$wiki_initializer_api_version"
+
+ynh_script_progression 'Installing LDAP extension...'
 install_exension 'org.xwiki.contrib.ldap:ldap-authenticator' "$ldap_version"
 
 # Disable super admin
-ynh_systemd_action --service_name="$app" --action=stop
+ynh_systemctl --service="$app" --action=stop
 disable_super_admin
 
-#=================================================
-# GENERIC FINALIZATION
 #=================================================
 # START SYSTEMD SERVICE
 #=================================================
 
-ynh_script_progression --message='Starting a systemd service...' --weight=1
-ynh_systemd_action --service_name="$app" --action=start --log_path=systemd --line_match="$systemd_match_start_line"
-wait_xwiki_started
+ynh_script_progression "Starting $app's systemd service..."
+ynh_systemctl --service="$app" --action=start --log_path=systemd --wait_until="$systemd_match_start_line" --timeout=300
 
 #=================================================
 # END OF SCRIPT
 #=================================================
-ynh_script_progression --message="Installation of $app completed" --last
+ynh_script_progression "Installation of $app completed"
