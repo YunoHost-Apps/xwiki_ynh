@@ -8,7 +8,7 @@ source /usr/share/yunohost/helpers
 
 readonly systemd_match_start_line='oxtjl.NotifyListener:main: ----------------------------------'
 readonly flavor_version="$(ynh_app_upstream_version)"
-readonly ldap_version='9.15.6'
+readonly ldap_version='9.15.7'
 readonly wiki_initializer_api_version='1.2.0'
 
 super_admin_config='#'
