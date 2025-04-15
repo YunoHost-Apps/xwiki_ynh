@@ -61,6 +61,7 @@ upgrade_app() {
         rm main.zip
         wget -O jdbc.jar "https://jdbc.postgresql.org/download/postgresql-$jdbc_version.jar"
         sha256sum_jdbc=$(sha256sum jdbc.jar | cut -d' ' -f1)
+        rm jdbc.jar
 
         # Update manifest
         sed -r -i 's|version = "[[:alnum:].]{4,8}~ynh[[:alnum:].]{1,2}"|version = "'"${app_version}"'~ynh1"|' ../manifest.toml
