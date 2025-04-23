@@ -8,7 +8,7 @@ source /usr/share/yunohost/helpers
 
 readonly systemd_match_start_line='oxtjl.NotifyListener:main: ----------------------------------'
 readonly flavor_version="$(ynh_app_upstream_version)"
-readonly ldap_version='9.15.5'
+readonly ldap_version='9.15.7'
 readonly wiki_initializer_api_version='1.2.0'
 
 super_admin_config='#'
@@ -128,7 +128,6 @@ install_source() {
 
     ynh_safe_rm "$install_dir"/webapps/xwiki/WEB-INF/xwiki.cfg
     ynh_safe_rm "$install_dir"/webapps/xwiki/WEB-INF/xwiki.properties
-    ynh_safe_rm "$install_dir"/webapps/root
 
     ln -s /var/log/"$app" "$install_dir"/logs
     ln -s /etc/"$app"/xwiki_conf.cfg "$install_dir"/webapps/xwiki/WEB-INF/xwiki.cfg
@@ -136,6 +135,7 @@ install_source() {
     cp ../conf/jetty-web.xml "$install_dir"/webapps/xwiki/WEB-INF/jetty-web.xml
 
     if $install_on_root; then
+        ynh_safe_rm "$install_dir"/webapps/root
         mv "$install_dir"/webapps/xwiki "$install_dir"/webapps/root
     elif [ "$path" == /root ]; then
         ynh_die 'Path "/root" not supported'
