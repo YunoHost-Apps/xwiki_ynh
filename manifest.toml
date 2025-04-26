@@ -42,7 +42,7 @@ ram.runtime = "1G"
     default = "/xwiki"
 
     [install.install_standard_flavor]
-    ask.en = "Would you like to install the Standard Flavor?"
+    ask.en = "Would you like to install the Standard Flavor ? Note that if you don't exactly know that does it mean, you should answer yes."
     help.en = "See https://extensions.xwiki.org/xwiki/bin/view/Extension/XWiki%20Standard%20Flavor/ for more informations."
     type = "boolean"
     default = true
