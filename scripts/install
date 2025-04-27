@@ -61,9 +61,6 @@ if [ "$install_standard_flavor" -eq 1 ]; then
     wait_for_flavor_install
 fi
 
-# ynh_script_progression 'Installing Wiki Initializer - API extension...'
-# install_exension 'org.xwiki.contrib.wikiinitializer:application-wiki-initializer-api' "$wiki_initializer_api_version"
-
 ynh_script_progression 'Installing LDAP extension...'
 install_exension 'org.xwiki.contrib.ldap:ldap-authenticator' "$ldap_version"
 

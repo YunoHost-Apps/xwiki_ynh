@@ -74,7 +74,7 @@ install_exension() {
     state_request=$(echo "$status_raw" | $xq -x '//jobStatus/ns2:state')
 
     while true; do
-        sleep 5
+        sleep 10
 
         status_raw=$($curl --user "superadmin:$super_admin_pwd" -X GET -H 'Content-Type: text/xml' "http://127.0.0.1:$port/${path2}rest/jobstatus/extension/action/$job_id")
         state_request=$(echo "$status_raw" | $xq -x '//jobStatus/state')
@@ -99,7 +99,7 @@ install_exension() {
 wait_xwiki_started() {
     local res
     res=$(curl --silent --show-error "http://127.0.0.1:$port/${path2}bin/view/Main/" || true)
-    sleep 20
+    sleep 10
 
     while ! echo "$res" | grep '<html' || echo "$res" | grep -F 'meta http-equiv="refresh" content="1"'; do
         res=$(curl --silent --show-error "http://127.0.0.1:$port/${path2}bin/view/Main/")
