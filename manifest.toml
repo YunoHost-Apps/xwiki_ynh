@@ -7,7 +7,7 @@ name = "XWiki"
 description.en = "Collaboration tool based on the wiki principle"
 description.fr = "Outil de collaboration basé sur le principe du wiki"
 
-version = "17.2.1~ynh1"
+version = "17.3.0~ynh1"
 
 maintainers = ["Josué Tille"]
 
@@ -42,7 +42,7 @@ ram.runtime = "1G"
     default = "/xwiki"
 
     [install.install_standard_flavor]
-    ask.en = "Would you like to install the Standard Flavor?"
+    ask.en = "Would you like to install the Standard Flavor ? Note that if you don't exactly know that does it mean, you should answer yes."
     help.en = "See https://extensions.xwiki.org/xwiki/bin/view/Extension/XWiki%20Standard%20Flavor/ for more informations."
     type = "boolean"
     default = true
@@ -64,8 +64,8 @@ ram.runtime = "1G"
     [resources.sources]
 
         [resources.sources.main]
-        url = "https://nexus.xwiki.org/nexus/content/groups/public/org/xwiki/platform/xwiki-platform-distribution-jetty-hsqldb/17.2.1/xwiki-platform-distribution-jetty-hsqldb-17.2.1.zip"
-        sha256 = "8de0320588430b47162030df092cae46fb7d8dc627e967519ca39d287ec70be4"
+        url = "https://nexus.xwiki.org/nexus/content/groups/public/org/xwiki/platform/xwiki-platform-distribution-jetty-hsqldb/17.3.0/xwiki-platform-distribution-jetty-hsqldb-17.3.0.zip"
+        sha256 = "68c7a1d64cef64408edbc55940c90008d44b25b4f937a8facfb522b4218ee69c"
         format = "zip"
 
         [resources.sources.jdbc]
