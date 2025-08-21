@@ -27,7 +27,7 @@ multi_instance = true
 
 ldap = true
 
-sso = false
+sso = true
 
 disk = "500M"
 ram.build = "0M"
@@ -111,7 +111,7 @@ ram.runtime = "1G"
     admin.label = "Admins"
 
     [resources.apt]
-    packages = ["openjdk-17-jre", "postgresql", "libreoffice"]
+    packages = ["default-jre-headless", "postgresql", "libreoffice"]
 
     [resources.database]
     type = "postgresql"
