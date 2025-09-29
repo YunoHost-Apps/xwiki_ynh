@@ -7,7 +7,7 @@ name = "XWiki"
 description.en = "Collaboration tool based on the wiki principle"
 description.fr = "Outil de collaboration basé sur le principe du wiki"
 
-version = "17.7.0~ynh1"
+version = "17.8.0~ynh1"
 
 maintainers = ["Josué Tille"]
 
@@ -64,14 +64,14 @@ ram.runtime = "1G"
     [resources.sources]
 
         [resources.sources.main]
-        url = "https://nexus.xwiki.org/nexus/content/groups/public/org/xwiki/platform/xwiki-platform-distribution-jetty-hsqldb/17.7.0/xwiki-platform-distribution-jetty-hsqldb-17.7.0.zip"
-        sha256 = "f4a0515a1fa3aca15b8b8b000de1b893ea9c7bc703511c5c2e7c0a004106e552"
+        url = "https://nexus.xwiki.org/nexus/content/groups/public/org/xwiki/platform/xwiki-platform-distribution-jetty-hsqldb/17.8.0/xwiki-platform-distribution-jetty-hsqldb-17.8.0.zip"
+        sha256 = "b575f6aeb4373c7bbbfe69d21d9a0a2da475a7a8850b10c62bd26964a6d7ab15"
         format = "zip"
 
         [resources.sources.jdbc]
-        url = "https://jdbc.postgresql.org/download/postgresql-42.7.7.jar"
-        rename = "postgresql-42.7.7.jar"
-        sha256 = "157963d60ae66d607e09466e8c0cdf8087e9cb20d0159899ffca96bca2528460"
+        url = "https://jdbc.postgresql.org/download/postgresql-42.7.8.jar"
+        rename = "postgresql-42.7.8.jar"
+        sha256 = "2a32a9dcbc42d67a50ad3a0de5efd102c8d2be46720045f2cbd6689f160ab7c7"
 
         # Note that xq is available on debian package since debian 12
         # So on bookworm should just remove this and use official package
