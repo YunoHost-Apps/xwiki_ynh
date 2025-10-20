@@ -54,11 +54,11 @@ enable_super_admin
 ynh_systemctl --service="$app" --action=start --log_path=systemd --wait_until="$systemd_match_start_line" --timeout=300
 
 if [ "$install_standard_flavor" -eq 1 ]; then
-    ynh_script_progression 'Upgrading flavor...'
-    wait_for_flavor_install
+    ynh_script_progression 'Installing flavor...'
+    install_standard_flavor
 fi
 
-ynh_script_progression 'Upgrading LDAP extension...'
+ynh_script_progression 'Installing LDAP extension...'
 install_exension 'org.xwiki.contrib.ldap:ldap-authenticator' "$ldap_version"
 
 # Disable super admin

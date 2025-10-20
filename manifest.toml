@@ -20,7 +20,7 @@ userdoc = "https://www.xwiki.org/xwiki/bin/view/Documentation/UserGuide/"
 code = "https://github.com/xwiki/xwiki-platform"
 
 [integration]
-yunohost = ">= 11.2.30"
+yunohost = ">= 12.1"
 helpers_version = "2.1"
 architectures = "all"
 multi_instance = true
@@ -31,7 +31,7 @@ sso = true
 
 disk = "500M"
 ram.build = "0M"
-ram.runtime = "1G"
+ram.runtime = "2G"
 
 [install]
     [install.domain]
@@ -75,6 +75,8 @@ ram.runtime = "1G"
 
         # Note that xq is available on debian package since debian 12
         # So on bookworm should just remove this and use official package
+        # But it seem that the version on bookworm is quite unstable, so we will need to wait on trixe to have
+        # a correct version
         [resources.sources.xq_tool]
         in_subdir= false
 
