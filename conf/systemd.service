@@ -10,6 +10,8 @@ Environment=JETTY_HOME=__INSTALL_DIR__/jetty
 WorkingDirectory=__INSTALL_DIR__/
 ExecStart=/usr/bin/java --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.util.concurrent=ALL-UNNAMED -Xmx2048m -jar __INSTALL_DIR__/jetty/start.jar jetty.http.port=__PORT__ jetty.http.host=127.0.0.1
 ExecStartPost=/usr/bin/curl --show-error -s --output /dev/null --retry-delay 5 --retry 4 --retry-connrefused http://127.0.0.1:__PORT__/__PATH2__rest
+# Use long timeout because the curl command could be really long
+TimeoutStartSec=200
 Restart=always
 RestartSec=10
 
