@@ -8,6 +8,33 @@ test_format = 1.0
     # Tests to run
     # ------------
     test_upgrade_from.0bfd0bdfeed0696c71fd79727a28fccc8822e123.name = "Before helper 2.1"
+    test_upgrade_from.44dbdd2b2518085f8c847ab06df5a7a9c6ddd2ea.name = "XWiki 16.10.x"
+    test_upgrade_from.6c12052e6f670907bfbeb3acf75927551521aa44.name = "XWiki 17.7.0 Before curl test + flavor install rework"
 
+    # -------------------------------
+    # Curl tests to validate that the app works
+    # -------------------------------
     [default.curl_tests]
-    main.expect_return_code = [200, 202]
+    home.path = "/bin/view/Main/"
+    home.expect_title = 'Home - XWiki'
+    home.expect_content = 'Welcome to your wiki'
+
+    login.path = "/bin/login/XWiki/XWikiLogin"
+    login.expect_title = "XWikiLogin - XWiki"
+    login.expect_return_code = 401
+    login.logged_on_sso = false
+
+    login2.path = "/bin/login/XWiki/XWikiLogin"
+    login2.expect_title = "Home - XWiki"
+    login2.logged_on_sso = true
+
+    api.path = "/rest"
+    api.expect_content = '\d+.\d+.\d+'
+
+    # We use xpage=plain&outputSyntax=plain to make the result in raw format (not html), so it's easier to check the result.
+    sandbox.path = "/bin/view/Sandbox/?xpage=plain&outputSyntax=plain"
+    sandbox.expect_content = "The sandbox is a part of your wiki that you can freely modify"
+
+    admin.path = "/bin/admin/XWiki/XWikiPreferences?xpage=plain&outputSyntax=plain"
+    admin.expect_content = 'Look & Feel Change the aspect and layout of the wiki.'
+    admin.logged_on_sso = true

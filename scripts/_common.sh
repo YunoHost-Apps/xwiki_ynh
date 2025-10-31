@@ -8,16 +8,10 @@ source /usr/share/yunohost/helpers
 
 readonly systemd_match_start_line='oxtjl.NotifyListener:main: ----------------------------------'
 readonly flavor_version="$(ynh_app_upstream_version)"
-readonly ldap_version='9.15.7'
-readonly wiki_initializer_api_version='1.2.0'
+readonly ldap_version='9.16.0'
+readonly xq="$install_dir/xq_tool/xq"
 
 super_admin_config='#'
-
-if [ "$install_standard_flavor" -eq 1 ]; then
-    distribution_default_ui="distribution.defaultUI=org.xwiki.platform:xwiki-platform-distribution-flavor-mainwiki/$flavor_version"
-else
-    distribution_default_ui='#'
-fi
 
 if [ "$path" == '/' ]; then
     install_on_root=true
@@ -50,74 +44,84 @@ install_exension() {
     local extension_id=$1
     local extension_version=$2
     local temp_dir=$(mktemp -d)
-    local job_id=$(ynh_string_random)
-    local xq=$install_dir/xq_tool/xq
-    local curl='curl --silent --show-error'
+    local job_id=$(ynh_string_random -l 5)
+
     local extension_name_path=$(echo ${extension_id//./%2E} | sed 's|:|%3A|g')
     local extension_version_path=${extension_version//./%2E}
+    local file_path="$data_dir/extension/repository/$extension_name_path/$extension_version_path/$extension_name_path-$extension_version_path.xed"
 
-    if [ -e "$data_dir/extension/repository/$extension_name_path/$extension_version_path" ]; then
-        # Return if extension is already installed
-        return 0
+    if [ -e "$file_path" ]; then
+        root_install_date="$($xq -x '//extension/properties/installed.root/date' "$file_path")"
+        main_wiki_install_date="$($xq -x '//extension/properties/installed.namespaces/xwiki' "$file_path")"
+
+        if [ -n "$root_install_date" ] || [ -n "$main_wiki_install_date" ]; then
+            # Cancel install as the extension is already installed
+            return 0
+        fi
     fi
-
-    local status_raw
-    local state_request
-
-    wait_xwiki_started
 
     chmod 700 "$temp_dir"
     chown root:root "$temp_dir"
 
-    ynh_config_add --template=install_extensions.xml --destination="$temp_dir"/install_extensions.xml
-    status_raw=$($curl -i --user "superadmin:$super_admin_pwd" -X PUT -H 'Content-Type: text/xml' "http://127.0.0.1:$port/${path2}rest/jobs?jobType=install&async=true" --upload-file $temp_dir/install_extensions.xml)
-    state_request=$(echo "$status_raw" | $xq -x '//jobStatus/ns2:state')
+    ynh_config_add --jinja --template=install_extension_request.xml --destination="$temp_dir/install_extension_request.xml"
+
+    execute_job "extension/action/$extension_id/wiki:xwiki/$extension_version/$job_id" "$temp_dir/install_extension_request.xml"
+}
+
+install_standard_flavor() {
+    local temp_dir=$(mktemp -d)
+    local job_id=$(ynh_string_random -l 5)
+
+    local extension_version_path=${flavor_version//./%2E}
+    local file_path="$data_dir/extension/repository/org%2Exwiki%2Eplatform%3Axwiki-platform-distribution-flavor-mainwiki/$extension_version_path/org%2Exwiki%2Eplatform%3Axwiki-platform-distribution-flavor-mainwiki-$extension_version_path.xed"
+
+    if [ -e "$file_path" ]; then
+        main_wiki_install_date="$($xq -x '//extension/properties/installed.namespaces/xwiki' "$file_path")"
+
+        if [ -n "$main_wiki_install_date" ]; then
+            # Cancel install as the extension is already installed
+            return 0
+        fi
+    fi
+
+    chmod 700 "$temp_dir"
+    chown root:root "$temp_dir"
+
+    ynh_config_add --jinja --template=install_flavor_request.xml --destination="$temp_dir/install_flavor_request.xml"
+
+    execute_job "extension/action/org.xwiki.platform:xwiki-platform-distribution-flavor-mainwiki/wiki:xwiki/$flavor_version/$job_id" "$temp_dir/install_flavor_request.xml"
+}
+
+execute_job() {
+    local job_path=$1
+    local job_file=$2
+    local curl='curl --silent --show-error'
+
+    local status_raw
+    local state_request
+    local error_msg
+
+    $curl -i --user "superadmin:$super_admin_pwd" -X PUT -H 'Content-Type: text/xml' "http://127.0.0.1:$port/${path2}rest/jobs?jobType=install&async=true" --upload-file "$job_file"
 
     while true; do
         sleep 10
 
-        status_raw=$($curl --user "superadmin:$super_admin_pwd" -X GET -H 'Content-Type: text/xml' "http://127.0.0.1:$port/${path2}rest/jobstatus/extension/action/$job_id")
-        state_request=$(echo "$status_raw" | $xq -x '//jobStatus/state')
+        status_raw="$($curl --user "superadmin:$super_admin_pwd" -X GET -H 'Content-Type: text/xml' "http://127.0.0.1:$port/${path2}rest/jobstatus/$job_path")"
+        state_request="$(echo "$status_raw" | $xq -x '//jobStatus/state')"
 
         if [ -z "$state_request" ]; then
             ynh_die "Invalid answer: '$status_raw'"
         elif [ "$state_request" == FINISHED ]; then
             # Check if error happen
-            error_msg=$(echo "$status_raw" | $xq -x '//jobStatus/errorMessage')
+            error_msg="$(echo "$status_raw" | $xq -x '//jobStatus/errorMessage')"
             if [ -z "$error_msg" ]; then
                 break
             else
-                ynh_die "Error while installing extension '$extension_id'. Error: $error_msg"
+                ynh_die "Error while running job $job_path"
             fi
         elif [ "$state_request" != RUNNING ]; then
             ynh_die "Invalid status '$state_request'"
         fi
-    done
-}
-
-# Note it's only needed before the application-wiki-initializer-api extension is installed
-wait_xwiki_started() {
-    local res
-    res=$(curl --silent --show-error "http://127.0.0.1:$port/${path2}bin/view/Main/" || true)
-    sleep 10
-
-    while ! echo "$res" | grep '<html' || echo "$res" | grep -F 'meta http-equiv="refresh" content="1"'; do
-        res=$(curl --silent --show-error "http://127.0.0.1:$port/${path2}bin/view/Main/")
-        sleep 10
-    done
-}
-
-wait_for_flavor_install() {
-    local status_header
-
-    wait_xwiki_started
-
-    while true; do
-        status_header="$(curl --silent --show-error -I "http://127.0.0.1:$port/${path2}bin/view/Main/")"
-        if ! echo "$status_header" | grep -q -E 'Location:[[:space:]].*/Distribution\?xredirect='; then
-            break
-        fi
-        sleep 10
     done
 }
 
@@ -133,6 +137,9 @@ install_source() {
     ln -s /etc/"$app"/xwiki_conf.cfg "$install_dir"/webapps/xwiki/WEB-INF/xwiki.cfg
     ln -s /etc/"$app"/xwiki_conf.properties "$install_dir"/webapps/xwiki/WEB-INF/xwiki.properties
     cp ../conf/jetty-web.xml "$install_dir"/webapps/xwiki/WEB-INF/jetty-web.xml
+    ynh_replace --match='<name>XWiki Jetty HSQLDB</name>' \
+                --replace='<name>XWiki YunoHost Jetty PostgreSQL</name>' \
+                --file="$install_dir/webapps/xwiki/META-INF/extension.xed"
 
     if $install_on_root; then
         ynh_safe_rm "$install_dir"/webapps/root

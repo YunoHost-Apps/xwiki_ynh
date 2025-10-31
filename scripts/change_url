@@ -30,6 +30,7 @@ if [ "$new_path" != "$old_path" ]; then
     fi
 fi
 add_config
+ynh_config_add_systemd
 set_permissions
 
 #=================================================

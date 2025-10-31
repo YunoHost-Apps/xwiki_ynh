@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jobRequest xmlns="http://www.xwiki.org">
+    <id>
+        <element>extension</element>
+        <element>action</element>
+        <element>{{ extension_id }}</element>
+        <element>wiki:xwiki</element>
+        <element>{{ extension_version }}</element>
+        <element>{{ job_id }}</element>
+    </id>
+    <interactive>false</interactive>
+    <remote>false</remote>
+    <verbose>true</verbose>
+    <property>
+        <key>extensions</key>
+        <value>
+            <list xmlns="" xmlns:ns2="http://www.xwiki.org">
+                <org.xwiki.extension.ExtensionId>
+                    <id>{{ extension_id }}</id>
+                    <version class="org.xwiki.extension.version.internal.DefaultVersion" serialization="custom">
+                        <org.xwiki.extension.version.internal.DefaultVersion>
+                            <string>{{ extension_version }}</string>
+                        </org.xwiki.extension.version.internal.DefaultVersion>
+                    </version>
+                </org.xwiki.extension.ExtensionId>
+            </list>
+        </value>
+    </property>
+    <property>
+        <key>extension.properties</key>
+        <value>
+            <map xmlns="" xmlns:ns2="http://www.xwiki.org">
+                <entry>
+                <string>user.reference</string>
+                <string>XWiki.superadmin</string>
+                </entry>
+            </map>
+        </value>
+    </property>
+    <property>
+        <key>user.reference</key>
+        <value>
+            <org.xwiki.model.reference.DocumentReference>
+                <name>superadmin</name>
+                <parent class="org.xwiki.model.reference.SpaceReference">
+                    <name>XWiki</name>
+                    <parent class="org.xwiki.model.reference.WikiReference">
+                        <name>xwiki</name>
+                        <type>WIKI</type>
+                    </parent>
+                    <type>SPACE</type>
+                </parent>
+                <type>DOCUMENT</type>
+            </org.xwiki.model.reference.DocumentReference>
+        </value>
+    </property>
+    <property>
+        <key>namespaces</key>
+        <value>
+            <list xmlns="" xmlns:ns2="http://www.xwiki.org">
+                <string>wiki:xwiki</string>
+            </list>
+        </value>
+    </property>
+</jobRequest>

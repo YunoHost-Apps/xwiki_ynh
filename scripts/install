@@ -58,7 +58,7 @@ ynh_systemctl --service="$app" --action=start --log_path=systemd --wait_until="$
 
 if [ "$install_standard_flavor" -eq 1 ]; then
     ynh_script_progression 'Installing flavor...'
-    wait_for_flavor_install
+    install_standard_flavor
 fi
 
 ynh_script_progression 'Installing LDAP extension...'
