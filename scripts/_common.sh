@@ -95,7 +95,7 @@ install_standard_flavor() {
 execute_job() {
     local job_path=$1
     local job_file=$2
-    local curl='curl --silent --show-error'
+    local curl='curl --silent --show-error --retry-delay 5 --retry 4'
 
     local status_raw
     local state_request
