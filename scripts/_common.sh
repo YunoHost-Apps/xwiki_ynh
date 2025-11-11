@@ -8,7 +8,7 @@ source /usr/share/yunohost/helpers
 
 readonly systemd_match_start_line='oxtjl.NotifyListener:main: ----------------------------------'
 readonly flavor_version="$(ynh_app_upstream_version)"
-readonly ldap_version='9.16.0'
+readonly ldap_version='9.16.1'
 readonly xq="$install_dir/xq_tool/xq"
 
 super_admin_config='#'
@@ -95,7 +95,7 @@ install_standard_flavor() {
 execute_job() {
     local job_path=$1
     local job_file=$2
-    local curl='curl --silent --show-error'
+    local curl='curl --silent --show-error --retry-delay 5 --retry 4'
 
     local status_raw
     local state_request
