@@ -7,7 +7,7 @@ name = "XWiki"
 description.en = "Collaboration tool based on the wiki principle"
 description.fr = "Outil de collaboration basé sur le principe du wiki"
 
-version = "17.10.1~ynh1"
+version = "17.10.2~ynh1"
 
 maintainers = ["Josué Tille"]
 
@@ -64,8 +64,8 @@ ram.runtime = "2G"
     [resources.sources]
 
         [resources.sources.main]
-        url = "https://nexus.xwiki.org/nexus/content/groups/public/org/xwiki/platform/xwiki-platform-distribution-jetty-hsqldb/17.10.1/xwiki-platform-distribution-jetty-hsqldb-17.10.1.zip"
-        sha256 = "9f09e092a15b2f3f2e7562d328d4f7426bd7fe1d691d68cc954f801fbcb1aba6"
+        url = "https://nexus.xwiki.org/nexus/content/groups/public/org/xwiki/platform/xwiki-platform-distribution-jetty-hsqldb/17.10.2/xwiki-platform-distribution-jetty-hsqldb-17.10.2.zip"
+        sha256 = "e0d02a3aadd5ec3e148a962de7b05dddd7a811dca2ecbc78286d97438e488b43"
         format = "zip"
 
         [resources.sources.jdbc]
