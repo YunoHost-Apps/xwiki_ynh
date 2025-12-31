@@ -12,7 +12,7 @@ Collaboration tool based on the wiki principle
 
 [![🌐 Official app website](https://img.shields.io/badge/Official_app_website-darkgreen?style=for-the-badge)](https://www.xwiki.org/)
 [![App Demo](https://img.shields.io/badge/App_Demo-blue?style=for-the-badge)](https://playground.xwiki.org/xwiki/bin/view/Main/WebHome)
-[![Version: 17.10.1~ynh1](https://img.shields.io/badge/Version-17.10.1~ynh1-rgb(18,138,11)?style=for-the-badge)](https://ci-apps.yunohost.org/ci/apps/xwiki/)
+[![Version: 17.10.2~ynh1](https://img.shields.io/badge/Version-17.10.2~ynh1-rgb(18,138,11)?style=for-the-badge)](https://ci-apps.yunohost.org/ci/apps/xwiki/)
 
 <div align="center">
 <a href="https://apps.yunohost.org/app/xwiki"><img height="100px" src="https://github.com/YunoHost/yunohost-artwork/raw/refs/heads/main/badges/neopossum-badges/badge_more_info_on_the_appstore.svg"/></a>
