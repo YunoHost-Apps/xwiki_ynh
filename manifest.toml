@@ -20,7 +20,7 @@ userdoc = "https://www.xwiki.org/xwiki/bin/view/Documentation/UserGuide/"
 code = "https://github.com/xwiki/xwiki-platform"
 
 [integration]
-yunohost = ">= 12.1"
+yunohost = ">= 12.1.38"
 helpers_version = "2.1"
 architectures = "all"
 multi_instance = true
