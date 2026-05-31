@@ -38,3 +38,4 @@ test_format = 1.0
     admin.path = "/bin/admin/XWiki/XWikiPreferences?xpage=plain&outputSyntax=plain"
     admin.expect_content = 'Look & Feel Change the aspect and layout of the wiki.'
     admin.logged_on_sso = true
+    admin.logged_as_admin = true
