@@ -136,7 +136,6 @@ install_source() {
     ln -s /var/log/"$app" "$install_dir"/logs
     ln -s /etc/"$app"/xwiki_conf.cfg "$install_dir"/webapps/xwiki/WEB-INF/xwiki.cfg
     ln -s /etc/"$app"/xwiki_conf.properties "$install_dir"/webapps/xwiki/WEB-INF/xwiki.properties
-    cp ../conf/jetty-web.xml "$install_dir"/webapps/xwiki/WEB-INF/jetty-web.xml
     ynh_replace --match='<name>XWiki Jetty HSQLDB</name>' \
                 --replace='<name>XWiki YunoHost Jetty PostgreSQL</name>' \
                 --file="$install_dir/webapps/xwiki/META-INF/extension.xed"
