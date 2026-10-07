@@ -72,7 +72,7 @@ upgrade_app() {
         sed -r -i "s|ldap_version='[[:alnum:].]{3,9}'|ldap_version='$ldap_version'|" ../scripts/_common.sh
 
         git commit -a -m "Upgrade $app_name to $app_version"
-        git push gitea auto_update:auto_update
+        git push origin auto_update:auto_update
     ) 2>&1 | tee "${app_name}_build_temp.log"
     return "${PIPESTATUS[0]}"
 }
