@@ -8,7 +8,7 @@ source /usr/share/yunohost/helpers
 
 readonly systemd_match_start_line='oxtjl.NotifyListener:main: ----------------------------------'
 readonly flavor_version="$(ynh_app_upstream_version)"
-readonly ldap_version='9.16.3'
+readonly ldap_version='9.16.6'
 readonly xq="$install_dir/xq_tool/xq"
 
 super_admin_config='#'
@@ -136,7 +136,6 @@ install_source() {
     ln -s /var/log/"$app" "$install_dir"/logs
     ln -s /etc/"$app"/xwiki_conf.cfg "$install_dir"/webapps/xwiki/WEB-INF/xwiki.cfg
     ln -s /etc/"$app"/xwiki_conf.properties "$install_dir"/webapps/xwiki/WEB-INF/xwiki.properties
-    cp ../conf/jetty-web.xml "$install_dir"/webapps/xwiki/WEB-INF/jetty-web.xml
     ynh_replace --match='<name>XWiki Jetty HSQLDB</name>' \
                 --replace='<name>XWiki YunoHost Jetty PostgreSQL</name>' \
                 --file="$install_dir/webapps/xwiki/META-INF/extension.xed"
